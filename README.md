@@ -28,10 +28,6 @@ All credit for the original plugin goes to the [PlaceholderAPI Team][upstream] a
 
 Grab the latest build from the [Releases page][releases]. Each release includes the compiled shaded `.jar` ready to drop into your server's `plugins` folder.
 
-## Easter egg 🥚
-
-There's a little something hidden in this fork. Try running `/papi antropov31` in-game or from console. ;)
-
 ---
 
 ## Useful links (upstream)

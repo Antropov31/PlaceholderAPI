@@ -35,7 +35,6 @@ import java.util.stream.Stream;
 import com.google.common.collect.Lists;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.commands.impl.cloud.CommandECloud;
-import me.clip.placeholderapi.commands.impl.local.CommandAntropov31;
 import me.clip.placeholderapi.commands.impl.local.CommandDump;
 import me.clip.placeholderapi.commands.impl.local.CommandExpansionRegister;
 import me.clip.placeholderapi.commands.impl.local.CommandExpansionUnregister;
@@ -65,12 +64,7 @@ public final class PlaceholderCommandRouter implements CommandExecutor, TabCompl
       new CommandReload(),
       new CommandVersion(),
       new CommandExpansionRegister(),
-      new CommandExpansionUnregister(),
-      new CommandAntropov31());
-
-  // Easter egg labels that should stay hidden from tab completion.
-  @Unmodifiable
-  private static final List<String> HIDDEN_LABELS = ImmutableList.of("antropov31");
+      new CommandExpansionUnregister());
 
   @NotNull
   private final PlaceholderAPIPlugin plugin;
@@ -144,8 +138,7 @@ public final class PlaceholderCommandRouter implements CommandExecutor, TabCompl
 
     final Stream<String> targets = PlaceholderCommand
         .filterByPermission(sender, commands.values().stream()).map(PlaceholderCommand::getLabels)
-        .flatMap(Collection::stream)
-        .filter(label -> !HIDDEN_LABELS.contains(label));
+        .flatMap(Collection::stream);
     PlaceholderCommand.suggestByParameter(targets, suggestions, args.length == 0 ? null : args[0]);
 
     return suggestions;
