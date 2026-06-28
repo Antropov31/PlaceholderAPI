@@ -1,54 +1,49 @@
-[issues]: https://github.com/PlaceholderAPI/PlaceholderAPI/issues
-[licenseImg]: https://img.shields.io/github/license/PlaceholderAPI/PlaceholderAPI.svg
-[license]: https://github.com/PlaceholderAPI/PlaceholderAPI/blob/master/LICENSE
+[license]: https://github.com/Antropov31/PlaceholderAPI/blob/master/LICENSE
+[upstream]: https://github.com/PlaceholderAPI/PlaceholderAPI
+[releases]: https://github.com/Antropov31/PlaceholderAPI/releases
+[release-workflow]: https://github.com/Antropov31/PlaceholderAPI/actions/workflows/release.yml
 
-[releaseImg]: https://img.shields.io/github/release/PlaceholderAPI/PlaceholderAPI.svg?label=github%20release
-[release]: https://github.com/PlaceholderAPI/PlaceholderAPI/releases/latest
+![Build & Release](https://github.com/Antropov31/PlaceholderAPI/actions/workflows/release.yml/badge.svg)
 
-[discord]: https://helpch.at/discord
-[spigot]: https://www.spigotmc.org/resources/6245/
-[hangar]: https://hangar.papermc.io/HelpChat/PlaceholderAPI
-[modrinth]: https://modrinth.com/plugin/placeholderapi
-[Expansions cloud]: https://ecloud.placeholderapi.com
-[placeholder list]: https://helpch.at/placeholders
-[statistics]: https://bstats.org/plugin/bukkit/PlaceholderAPI
+# PlaceholderAPINot
 
-[ci]: http://ci.extendedclip.com/job/PlaceholderAPI/
-[ciImg]: http://ci.extendedclip.com/buildStatus/icon?job=PlaceholderAPI
+> **PlaceholderAPINot** is a community fork of [PlaceholderAPI][upstream], maintained by **Antropov31**.
 
-[APIversionImg]: https://repo.extendedclip.com/api/badge/latest/releases/me/clip/placeholderapi?name=API%20Version
-[logo]: https://wiki.placeholderapi.com/assets/img/papi-logo.png
+PlaceholderAPI is the most complete placeholder provider for Spigot/Paper servers, letting plugins share and expose dynamic values (placeholders) to each other.
 
-[contributing]: https://github.com/PlaceholderAPI/PlaceholderAPI/blob/master/.github/CONTRIBUTING.md
-[placeholderexpansion]: https://wiki.placeholderapi.com/developers/creating-a-placeholderexpansion/
-<!-- The stuff above isn't visible in the readme -->
+## About this fork
 
-[![logo]][spigot]
+This is a fork of the original [PlaceholderAPI/PlaceholderAPI][upstream]. It keeps everything that makes PlaceholderAPI great while focusing on a few extra goals:
 
-[![ciImg]][ci] [![releaseImg]][release] ![APIversionImg] [![licenseImg]][license]
+* **Target platform:** built and tested against **Purpur 26.2** (Minecraft 26.2) and compatible Paper/Spigot/Folia servers.
+* **Bug fixes:** ongoing fixes for issues found in the upstream project.
+* **Extra features & improvements:** additional tweaks and enhancements on top of upstream PlaceholderAPI.
+* **Automated builds:** every push produces a ready-to-use `.jar` and publishes it straight to [Releases][releases] via GitHub Actions.
 
-# Information 
-[PlaceholderAPI][spigot] is a plugin for Spigot servers that allows server owners to display information from various plugins with a uniform format. 
+**Maintainer / Author of this fork:** Antropov31
 
-Support for specific plugins are provided either by the plugin itself or through expansions. The expansions may be downloaded in-game through the PAPI Expansion Cloud. There are currently over 240+ expansions that support a wide variety of plugins, such as Essentials, Factions, LuckPerms, and Vault. 
+All credit for the original plugin goes to the [PlaceholderAPI Team][upstream] and its contributors. This fork is distributed under the same license as upstream (see [LICENSE][license]).
 
-PlaceholderAPI has been downloaded over 2,000,000 times on Spigot and has been used concurrently on over 50,000 servers, which makes it a must-have for a server of any type or scale.
+## Downloads
 
-## Contribute
-If you would like to contribute towards PlaceholderAPI should you take a look at our [Contributing file][contributing] for the ins and outs on how you can do that and what you need to keep in mind.
+Grab the latest build from the [Releases page][releases]. Each release includes the compiled shaded `.jar` ready to drop into your server's `plugins` folder.
 
-## Create an Expansion
-If you would like to create your own Placeholder Expansion for PlaceholderAPI, take a look at our [Wiki][placeholderexpansion] which contains a detailed tutorial on how you can achieve this.
+## Easter egg 🥚
 
-## Support
-- [Issue Tracker][issues]
-- [Discord Support][discord]
+There's a little something hidden in this fork. Try running `/papi antropov31` in-game or from console. ;)
 
-## Quick Links
-- [CI Server][ci]
-- [Expansions Cloud]
-- [Placeholder List]
-- [Spigot Page][spigot]
-- [Hangar Page][hangar]
-- [Modrinth Page][modrinth]
-- [Plugin Statistics][statistics]
+---
+
+## Useful links (upstream)
+
+| | |
+| --- | --- |
+| Upstream project: | [github.com/PlaceholderAPI/PlaceholderAPI][upstream] |
+| Wiki: | https://wiki.placeholderapi.com |
+| Expansions cloud: | https://ecloud.placeholderapi.com |
+| Placeholder list: | https://helpch.at/placeholders |
+
+## Credits
+
+* Original plugin: [PlaceholderAPI/PlaceholderAPI][upstream] and contributors.
+* Fork maintained by: **Antropov31**.
