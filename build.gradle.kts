@@ -52,8 +52,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 
     withJavadocJar()
     withSourcesJar()
@@ -77,7 +77,7 @@ tasks {
         classpath = paper.compileClasspath
         destinationDirectory.set(layout.buildDirectory.dir("classes/java/paper"))
         options.encoding = "UTF-8"
-        options.release = 21
+        options.release = 25
     }
 
     val plainJar by registering(Jar::class) {
@@ -117,7 +117,7 @@ tasks {
 
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.release = 21
+        options.release = 25
     }
 
     withType<ShadowJar> {
