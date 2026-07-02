@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.commands.PlaceholderCommand;
@@ -78,14 +79,14 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
           .orElse("Unknown");
 
   @Unmodifiable
-  private static final Set OPTIONS = ImmutableSet.of("all", "installed");
+  private static final Set<String> OPTIONS = ImmutableSet.of("all", "installed");
 
   public CommandECloudExpansionList() {
     super("list");
   }
 
   @NotNull
-  private static Collection getExpansions(@NotNull final String target,
+  private static Collection<CloudExpansion> getExpansions(@NotNull final String target,
       @NotNull final PlaceholderAPIPlugin plugin) {
     switch (target.toLowerCase(Locale.ROOT)) {
       case "all":
@@ -98,7 +99,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
   }
 
   @NotNull
-  private static List getPage(@NotNull final List expansions,
+  private static List<CloudExpansion> getPage(@NotNull final List<CloudExpansion> expansions,
       final int page) {
     final int head = (page * PAGE_SIZE);
     final int tail = Math.min(expansions.size(), head + PAGE_SIZE);
@@ -135,7 +136,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
         .append("&r");
   }
 
-  private static Component getMessage(@NotNull final List expansions,
+  private static Component getMessage(@NotNull final List<CloudExpansion> expansions,
       final int page, final int limit, @NotNull final String target) {
     final SimpleDateFormat format = PlaceholderAPIPlugin.getDateFormat();
 
@@ -211,7 +212,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
     return message.build();
   }
 
-  private static void addExpansionTable(@NotNull final List expansions,
+  private static void addExpansionTable(@NotNull final List<CloudExpansion> expansions,
       @NotNull final StringBuilder message, final int startIndex,
       @NotNull final String versionTitle,
       @NotNull final Function<CloudExpansion, Object> versionFunction) {
@@ -225,7 +226,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
     functions.put("&9Verified", EXPANSION_VERIFIED);
     functions.put(versionTitle, versionFunction);
 
-    final List<List > rows = new ArrayList<>();
+    final List<List<String>> rows = new ArrayList<>();
 
     rows.add(0, new ArrayList<>(functions.keySet()));
 
@@ -234,7 +235,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
           .map(Objects::toString).collect(Collectors.toList()));
     }
 
-    final List table = Format.tablify(Format.Align.LEFT, rows)
+    final List<String> table = Format.tablify(Format.Align.LEFT, rows)
         .orElse(Collections.emptyList());
     if (table.isEmpty()) {
       return;
@@ -248,7 +249,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
   @Override
   public void evaluate(@NotNull final PlaceholderAPIPlugin plugin,
       @NotNull final CommandSender sender, @NotNull final String alias,
-      @NotNull @Unmodifiable final List params) {
+      @NotNull @Unmodifiable final List<String> params) {
     if (params.isEmpty()) {
       Msg.msg(sender,
           "&cYou must specify an option. [all, {author}, installed]");
@@ -256,7 +257,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
     }
 
     final boolean installed = params.get(0).equalsIgnoreCase("installed");
-    final List expansions = Lists
+    final List<CloudExpansion> expansions = Lists
         .newArrayList(getExpansions(params.get(0), plugin));
 
     if (expansions.isEmpty()) {
@@ -307,7 +308,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
     }
 
     final StringBuilder builder = new StringBuilder();
-    final List values = getPage(expansions, page - 1);
+    final List<CloudExpansion> values = getPage(expansions, page - 1);
 
     addExpansionTitle(builder, params.get(0), page);
 
@@ -334,7 +335,7 @@ public final class CommandECloudExpansionList extends PlaceholderCommand {
   @Override
   public void complete(@NotNull final PlaceholderAPIPlugin plugin,
       @NotNull final CommandSender sender, @NotNull final String alias,
-      @NotNull @Unmodifiable final List params, @NotNull final List suggestions) {
+      @NotNull @Unmodifiable final List<String> params, @NotNull final List<String> suggestions) {
     if (params.size() > 2) {
       return;
     }
