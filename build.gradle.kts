@@ -34,11 +34,6 @@ repositories {
 
 dependencies {
     implementation("org.bstats:bstats-bukkit:3.1.0")
-    // adventure-platform-bukkit must NOT be shaded/relocated: it uses native NMS
-    // bindings and Paper/Purpur already provide Adventure at runtime. Bundling +
-    // relocating it makes BukkitComponentSerializer fail to initialize and kicks
-    // players with a NoClassDefFoundError. Keep it compileOnly.
-    compileOnly("net.kyori:adventure-platform-bukkit:4.4.1")
 
     add(paper.compileOnlyConfigurationName, "net.kyori:adventure-platform-bukkit:4.4.1")
     add(paper.compileOnlyConfigurationName, "dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT")
