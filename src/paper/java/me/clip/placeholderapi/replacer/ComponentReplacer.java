@@ -95,9 +95,21 @@ public class ComponentReplacer {
         final String original = ((ClickEvent.Payload.Text) payload).value();
         final String replaced = replacer.apply(original);
 
-        // Adventure 5.x: the Action enum constants were reworked, so rebuild
-        // the event generically from its existing (text) action.
-        return ClickEvent.clickEvent(click.action(), replaced);
+        final ClickEvent.Action<?> action = click.action();
+
+        if (action == ClickEvent.Action.OPEN_URL) {
+            return ClickEvent.openUrl(replaced);
+        } else if (action == ClickEvent.Action.OPEN_FILE) {
+            return ClickEvent.openFile(replaced);
+        } else if (action == ClickEvent.Action.RUN_COMMAND) {
+            return ClickEvent.runCommand(replaced);
+        } else if (action == ClickEvent.Action.SUGGEST_COMMAND) {
+            return ClickEvent.suggestCommand(replaced);
+        } else if (action == ClickEvent.Action.COPY_TO_CLIPBOARD) {
+            return ClickEvent.copyToClipboard(replaced);
+        }
+
+        return click;
     }
 
     @NotNull
