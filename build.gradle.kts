@@ -34,7 +34,11 @@ repositories {
 
 dependencies {
     implementation("org.bstats:bstats-bukkit:3.1.0")
-    implementation("net.kyori:adventure-platform-bukkit:4.4.1")
+    // adventure-platform-bukkit must NOT be shaded/relocated: it uses native NMS
+    // bindings and Paper/Purpur already provide Adventure at runtime. Bundling +
+    // relocating it makes BukkitComponentSerializer fail to initialize and kicks
+    // players with a NoClassDefFoundError. Keep it compileOnly.
+    compileOnly("net.kyori:adventure-platform-bukkit:4.4.1")
 
     add(paper.compileOnlyConfigurationName, "net.kyori:adventure-platform-bukkit:4.4.1")
     add(paper.compileOnlyConfigurationName, "dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT")
@@ -127,13 +131,6 @@ tasks {
         archiveClassifier.set("")
 
         relocate("org.bstats", "me.clip.placeholderapi.metrics")
-        relocate("net.kyori", "me.clip.placeholderapi.libs.kyori")
-
-        // Relocate & merge META-INF/services provider files so adventure's
-        // gson/JSON serializer is still discoverable via ServiceLoader after the
-        // net.kyori relocation. Without this, BukkitComponentSerializer's static
-        // initializer fails and players get kicked with NoClassDefFoundError.
-        mergeServiceFiles()
 
         exclude("META-INF/versions/**")
 
