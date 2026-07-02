@@ -38,9 +38,9 @@ dependencies {
 
     // Purpur 26.2 provides native Adventure 5.x at the original net.kyori
     // packages. Do NOT bundle or relocate Adventure.
-    add(paper.compileOnlyConfigurationName, "org.purpurmc.purpur:purpur-api:26.2-R0.1-SNAPSHOT")
+    add(paper.compileOnlyConfigurationName, "org.purpurmc.purpur:purpur-api:26.2.build.+")
 
-    compileOnly("org.purpurmc.purpur:purpur-api:26.2-R0.1-SNAPSHOT")
+    compileOnly("org.purpurmc.purpur:purpur-api:26.2.build.+")
     compileOnlyApi("org.jetbrains:annotations:23.0.0")
 
     jmh("org.openjdk.jmh:jmh-core:1.37")
