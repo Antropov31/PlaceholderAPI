@@ -13,8 +13,6 @@ version = "2.12.3-DEV-${System.getProperty("BUILD_NUMBER")}"
 
 description = "An awesome placeholder provider!"
 
-val adventureVersion = "5.1.1"
-
 val paper by sourceSets.creating {
     java.srcDir("src/paper/java")
 
@@ -32,25 +30,17 @@ repositories {
     maven("https://repo.codemc.org/repository/maven-public/")
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.purpurmc.org/snapshots")
 }
 
 dependencies {
     implementation("org.bstats:bstats-bukkit:3.1.0")
 
-    // Adventure is provided by the server (Purpur/Paper 26.2 ships Adventure 5.x).
-    // Compile against it, never bundle it.
-    compileOnly("net.kyori:adventure-api:$adventureVersion")
-    add(paper.compileOnlyConfigurationName, "net.kyori:adventure-api:$adventureVersion")
+    // Purpur 26.2 provides native Adventure 5.x at the original net.kyori
+    // packages. Do NOT bundle or relocate Adventure.
+    add(paper.compileOnlyConfigurationName, "org.purpurmc.purpur:purpur-api:26.2-R0.1-SNAPSHOT")
 
-    // Server API for Bukkit + scheduler. Drop its stale Adventure 4.x transitive
-    // so only the 5.x API above is on the compile classpath.
-    compileOnly("dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT") {
-        exclude(group = "net.kyori")
-    }
-    add(paper.compileOnlyConfigurationName, "dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT") {
-        exclude(group = "net.kyori")
-    }
-
+    compileOnly("org.purpurmc.purpur:purpur-api:26.2-R0.1-SNAPSHOT")
     compileOnlyApi("org.jetbrains:annotations:23.0.0")
 
     jmh("org.openjdk.jmh:jmh-core:1.37")
@@ -59,16 +49,6 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.0.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-// Force Adventure to the server's 5.x line everywhere, in case a transitive
-// dependency tries to drag in the incompatible 4.x API again.
-configurations.all {
-    resolutionStrategy.eachDependency {
-        if (requested.group == "net.kyori" && requested.name.startsWith("adventure-")) {
-            useVersion(adventureVersion)
-        }
-    }
 }
 
 java {
