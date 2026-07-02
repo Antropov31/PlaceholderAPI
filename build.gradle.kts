@@ -13,6 +13,8 @@ version = "2.12.3-DEV-${System.getProperty("BUILD_NUMBER")}"
 
 description = "An awesome placeholder provider!"
 
+val adventureVersion = "5.1.1"
+
 val paper by sourceSets.creating {
     java.srcDir("src/paper/java")
 
@@ -35,10 +37,20 @@ repositories {
 dependencies {
     implementation("org.bstats:bstats-bukkit:3.1.0")
 
-    add(paper.compileOnlyConfigurationName, "net.kyori:adventure-platform-bukkit:4.4.1")
-    add(paper.compileOnlyConfigurationName, "dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT")
+    // Adventure is provided by the server (Purpur/Paper 26.2 ships Adventure 5.x).
+    // Compile against it, never bundle it.
+    compileOnly("net.kyori:adventure-api:$adventureVersion")
+    add(paper.compileOnlyConfigurationName, "net.kyori:adventure-api:$adventureVersion")
 
-    compileOnly("dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT")
+    // Server API for Bukkit + scheduler. Drop its stale Adventure 4.x transitive
+    // so only the 5.x API above is on the compile classpath.
+    compileOnly("dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT") {
+        exclude(group = "net.kyori")
+    }
+    add(paper.compileOnlyConfigurationName, "dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT") {
+        exclude(group = "net.kyori")
+    }
+
     compileOnlyApi("org.jetbrains:annotations:23.0.0")
 
     jmh("org.openjdk.jmh:jmh-core:1.37")
@@ -49,9 +61,19 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+// Force Adventure to the server's 5.x line everywhere, in case a transitive
+// dependency tries to drag in the incompatible 4.x API again.
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "net.kyori" && requested.name.startsWith("adventure-")) {
+            useVersion(adventureVersion)
+        }
+    }
+}
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 
     withJavadocJar()
     withSourcesJar()
@@ -75,7 +97,7 @@ tasks {
         classpath = paper.compileClasspath
         destinationDirectory.set(layout.buildDirectory.dir("classes/java/paper"))
         options.encoding = "UTF-8"
-        options.release = 8
+        options.release = 21
     }
 
     val plainJar by registering(Jar::class) {
@@ -115,7 +137,7 @@ tasks {
 
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.release = 8
+        options.release = 21
     }
 
     withType<ShadowJar> {
