@@ -129,6 +129,12 @@ tasks {
         relocate("org.bstats", "me.clip.placeholderapi.metrics")
         relocate("net.kyori", "me.clip.placeholderapi.libs.kyori")
 
+        // Relocate & merge META-INF/services provider files so adventure's
+        // gson/JSON serializer is still discoverable via ServiceLoader after the
+        // net.kyori relocation. Without this, BukkitComponentSerializer's static
+        // initializer fails and players get kicked with NoClassDefFoundError.
+        mergeServiceFiles()
+
         exclude("META-INF/versions/**")
 
         dependsOn("compilePaper")
